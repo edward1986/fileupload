@@ -1,0 +1,34 @@
+name: Upload Files via API
+
+on:
+  repository_dispatch:
+    types: [file_upload]
+
+permissions:
+  contents: write  # Required for pushing files
+
+jobs:
+  upload-file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Decode and Save File
+        run: |
+          mkdir -p uploads/
+          echo "${{ github.event.client_payload.content }}" | base64 --decode > "uploads/${{ github.event.client_payload.filename }}"
+          ls -lh uploads/
+
+      - name: Check for Changes
+        id: check_changes
+        run: echo "CHANGED=$(git status --porcelain | wc -l)" >> $GITHUB_ENV
+
+      - name: Commit and Push Changes (if needed)
+        if: env.CHANGED != '0'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add uploads/
+          git commit -m "Uploaded file: ${{ github.event.client_payload.filename }}"
+          git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/YOUR_USERNAME/YOUR_REPO.git
