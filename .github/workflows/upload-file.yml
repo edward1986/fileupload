@@ -1,7 +1,6 @@
 name: Upload Files via API
 on:
-  repository_dispatch:
-    types: [file_upload]
+  repository_dispatch: 
 
 permissions:
   contents: write  # Required for pushing files
