@@ -1,7 +1,7 @@
 name: Upload Files via API
 on:
   repository_dispatch:
-    types: [file_upload]
+    types: ["file_upload"]
 jobs:
   upload-file:
     runs-on: ubuntu-latest
