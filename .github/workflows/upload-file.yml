@@ -1,10 +1,7 @@
 name: Upload Files via API
 on:
-  repository_dispatch: 
-
-permissions:
-  contents: write  # Required for pushing files
-
+  repository_dispatch:
+    types: [file_upload]
 jobs:
   upload-file:
     runs-on: ubuntu-latest
