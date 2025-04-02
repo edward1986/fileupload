@@ -2,10 +2,15 @@ name: Upload Files via API
 on:
   repository_dispatch:
     types: [file_upload]
+    
 jobs:
   upload-file:
     runs-on: ubuntu-latest
     steps:
+      - name: Log client_payload
+        run: |
+          echo "filename: ${{ github.event.client_payload.filename }}"
+          echo "content: ${{ github.event.client_payload.content }}"
       - name: Checkout Repository
         uses: actions/checkout@v4
 
