@@ -2,15 +2,7 @@ name: Upload Files via API
 on:
   repository_dispatch:
     types: [file_upload]
-  workflow_dispatch:
-    inputs:
-      filename:
-        description: 'Filename to save'
-        required: true
-      content:
-        description: 'Base64-encoded content'
-        required: true
-    
+
 jobs:
   upload-file:
     runs-on: ubuntu-latest
